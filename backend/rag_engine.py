@@ -212,7 +212,7 @@ class RAGEngine:
 
         model = _get_embed_model()
         new_texts = [c["text"] for c in new_chunks]
-        new_embs = model.encode(new_texts, convert_to_numpy=True, show_progress_bar=False)
+        new_embs = model.encode(new_texts, convert_to_numpy=True, show_progress_bar=False, batch_size=8)
 
         # Convert embeddings to float32 for FAISS
         new_embs = np.asarray(new_embs, dtype=np.float32)
@@ -227,6 +227,8 @@ class RAGEngine:
 
         # Add embeddings to FAISS
         self._faiss_index.add(new_embs)
+
+        del new_embs
 
         # Store chunk metadata
         self._chunks.extend(new_chunks)
