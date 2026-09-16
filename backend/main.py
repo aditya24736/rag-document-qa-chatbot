@@ -7,6 +7,7 @@ Run locally:
 """
 
 from __future__ import annotations
+from fastapi.responses import FileResponse
 
 import os
 import uuid
@@ -44,6 +45,12 @@ app = FastAPI(
     version="1.0.0",
     lifespan=lifespan,
 )
+
+FRONTEND_DIR = Path(__file__).resolve().parent.parent / "frontend"
+
+@app.get("/")
+def serve_frontend():
+    return FileResponse(FRONTEND_DIR / "index.html")
 
 app.add_middleware(
     CORSMiddleware,
