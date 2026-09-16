@@ -163,3 +163,11 @@ def reset():
     """Clear all indexed documents and conversation history."""
     rag.reset()
     return {"message": "Vector store and conversation history cleared."}
+
+from fastapi.responses import FileResponse
+
+FRONTEND_DIR = Path(__file__).resolve().parent.parent / "frontend"
+
+@app.get("/")
+def serve_frontend():
+    return FileResponse(FRONTEND_DIR / "index.html")
